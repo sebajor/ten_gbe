@@ -7,8 +7,13 @@ source_ip=10*(2**24) + 20 #10.0.0.20
 mac_base=(2<<40) + (2<<32)
 ip_prefix='10. 0. 0.'     #Used for the purposes of printing output.
 
-pkt_period = 120#100  #in FPGA clocks (200MHz) la cague
+pkt_period = 100#100  #in FPGA clocks (200MHz) la cague
 payload_len = 50#50   #in 64bit words
+
+
+#pkt_period = 120
+#payload_len = 50
+#Esto equivale a 3.3Gbbps
 
 
 tx_core_name = 'gbe0'
@@ -57,6 +62,49 @@ ax2.plot(rx_data)
 ax2.set_title('rx_data')
 ax2.grid()
 plt.show()
+
+
+
+
+
+data_rate = 1.*payload_len/pkt_period*100
+tge_rate = data_rate/(8./10*156.25)
+
+
+print("10gb rate: %.4f" %(tge_rate*10))
+
+
+#test lost packages
+
+n_iter = 1000
+
+f = open('lost_pack', 'w')
+f.close()
+
+f = file('lost_pack', 'a')
+
+for i in range(n_iter):
+    fpga.write_int('cnt_rst',1)
+    fpga.write_int('cnt_rst',0)
+    rx_data = struct.unpack('>Q',fpga.read('rx_data',8))
+    tx_data = struct.unpack('>Q',fpga.read('tx_data',8))
+    offset = rx_data[0]-tx_data[0]
+    print(offset)
+    f.write(str(offset)+'\n')
+    time.sleep(1)
+f.close()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
