@@ -16,3 +16,13 @@ https://www.mail-archive.com/casper@lists.berkeley.edu/msg01972.html  ----> dife
 https://www.mail-archive.com/casper@lists.berkeley.edu/msg01163.html  ----> debbuging pc -roach connection
 
 
+
+to save the data using the interface:
+##also to improve with ethtool you could disable the tx
+sudo ip addr add 192.168.2.10/24 dev enp2s0
+sudo ethtool -A enp2s0 tx off
+nc -lvu 192.168.2.10 60000 #recv the data to see if there is any transmition
+sudo ip link set enp2s0 mtu 9000 #enable jumbo frames
+sudo tcpdump -B 32768 -s 0 -i enp2s0 udp -N --direction in -p -t -w data -U port 60000
+
+

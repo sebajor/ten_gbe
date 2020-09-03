@@ -3,13 +3,15 @@ import matplotlib.pyplot as plt
 
 
 
-pkt_period = 52#100  #in FPGA clocks (200MHz) la cague
-payload_len = 51#50   #in 64bit words
+pkt_period = 512#255#100  #in FPGA clocks (200MHz) la cague
+payload_len = 511#254#50   #in 64bit words
 
 
-dest_ip  =10*(2**24) + 30 #10.0.0.30
+#dest_ip  =10*(2**24) + 30 #10.0.0.30
+dest_ip =  192*(2**24)+168*(2**16)+2*(2**8)+10 ##for computer test comment them in loopback mode
+source_ip= 192*(2**24) + 168*(2**16) + 2*(2**8)+3 ##for computer test comment them 
 fabric_port=60000         
-source_ip=10*(2**24) + 20 #10.0.0.20
+#source_ip=10*(2**24) + 20 #10.0.0.20
 mac_base=(2<<40) + (2<<32)
 ip_prefix='10. 0. 0.'     #Used for the purposes of printing output.
 
