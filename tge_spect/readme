@@ -1,0 +1,6 @@
+We use the two channel ADCs model
+
+N number of FFT channels, M accumulation length
+
+Each N/8*M we have a packet availble.
+
